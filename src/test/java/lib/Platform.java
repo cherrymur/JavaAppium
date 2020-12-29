@@ -38,7 +38,7 @@ public class Platform {
         else if (this.isIOS()) {
             return new IOSDriver(URL, this.getIosDesiredCapabilities());
         }
-        else if (this.isMv()) {
+        else if (this.isMW()) {
             return new ChromeDriver(this.getChromeDesiredCapabilities());
         }
         else {
@@ -55,7 +55,7 @@ public class Platform {
         return isPlatform(PLATFORM_IOS);
     }
 
-    public boolean isMv() {
+    public boolean isMW() {
         return isPlatform(PLATFORM_MOBILE_WEB);
     }
 

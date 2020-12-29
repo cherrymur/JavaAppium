@@ -54,7 +54,7 @@ public class CoreTestsCase extends TestCase {
 
     protected void openWikiWebPageForMobileWeb()
     {
-        if(Platform.getInstance().isMv()) {
+        if(Platform.getInstance().isMW()) {
             driver.get("https://en.m.wikipedia.org");
         } else {
             System.out.println("Method openWikiWebPageForMobileWeb does nothing for platform " + Platform.getInstance().getPlatformVar());
