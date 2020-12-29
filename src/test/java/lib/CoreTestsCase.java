@@ -15,6 +15,7 @@ public class CoreTestsCase extends TestCase {
         driver = Platform.getInstance().getDriver();
         this.rotateScreenPORTRAIT();
         this.skipWelcomePageForIOSApp();
+        this.openWikiWebPageForMobileWeb();
     }
 
     @Override
@@ -38,7 +39,7 @@ public class CoreTestsCase extends TestCase {
             AppiumDriver driver = (AppiumDriver) this.driver;
             driver.rotate(ScreenOrientation.PORTRAIT);
         } else {
-            System.out.println("Method rotateScreenLandscape does nothing for platform " + Platform.getInstance().getPlatformVar());
+            System.out.println("Method rotateScreenPORTRAIT does nothing for platform " + Platform.getInstance().getPlatformVar());
         }
     }
 
@@ -47,10 +48,18 @@ public class CoreTestsCase extends TestCase {
             AppiumDriver driver = (AppiumDriver) this.driver;
             driver.runAppInBackground(seconds);
         } else {
-            System.out.println("Method rotateScreenLandscape does nothing for platform " + Platform.getInstance().getPlatformVar());
+            System.out.println("Method runAppInBackground does nothing for platform " + Platform.getInstance().getPlatformVar());
         }
     }
 
+    protected void openWikiWebPageForMobileWeb()
+    {
+        if(Platform.getInstance().isMv()) {
+            driver.get("https://en.m.wikipedia.org");
+        } else {
+            System.out.println("Method openWikiWebPageForMobileWeb does nothing for platform " + Platform.getInstance().getPlatformVar());
+        }
+    }
     private void skipWelcomePageForIOSApp() {
         if (Platform.getInstance().isIOS()) {
             AppiumDriver driver = (AppiumDriver) this.driver;
