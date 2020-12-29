@@ -21,7 +21,7 @@ public class ChangeAppConditionTests extends CoreTestsCase
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         String title_before_landscape_rotation = ArticlePageObject.getArticleTitle();
 
-        this.screenRotateLandscape();
+        this.rotateScreenLandscape();
 
         String title_after_landscape_rotation = ArticlePageObject.getArticleTitle();
 
@@ -31,7 +31,7 @@ public class ChangeAppConditionTests extends CoreTestsCase
                 title_after_landscape_rotation
         );
 
-        this.screenRotatePORTRAIT();
+        this.rotateScreenPORTRAIT();
 
         String title_after_portrait_rotation = ArticlePageObject.getArticleTitle();
 
