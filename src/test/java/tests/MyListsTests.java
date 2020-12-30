@@ -38,7 +38,6 @@ public class MyListsTests extends CoreTestsCase
         if (Platform.getInstance().isMW()) {
 
             AutorizationPageObject Auth = new AutorizationPageObject(driver);
-//            ArticlePageObject.scrollWebPageTillElementNotVisible(LOGIN_BUTTON);
             Auth.clickAuthButton();
             Auth.enterLoginData(login, password);
             Auth.submitForm();
@@ -70,8 +69,8 @@ public class MyListsTests extends CoreTestsCase
         SearchPageObject SearchPageObject = SearchPageObjectFactory.get(driver);
 
         SearchPageObject.initSearchInput();
-        SearchPageObject.typeSearchLine("Appium");
-        SearchPageObject.clickByArticleWithSubstring("Appium");
+        SearchPageObject.typeSearchLine("Role");
+        SearchPageObject.clickByArticleWithSubstring("Video game genre");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
@@ -84,11 +83,28 @@ public class MyListsTests extends CoreTestsCase
             ArticlePageObject.addArticlesToMySaved();
         }
 
+        if (Platform.getInstance().isMW()) {
+
+            AutorizationPageObject Auth = new AutorizationPageObject(driver);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+
+            ArticlePageObject.waitForTitleElement();
+
+            assertEquals(
+                    "we are not redirected after login",
+                    first_article_title,
+                    ArticlePageObject.getArticleTitle()
+            );
+            ArticlePageObject.addArticlesToMySaved();
+        }
+
         ArticlePageObject.closeArticle();
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject.waitForTitleElement();
 
@@ -103,10 +119,10 @@ public class MyListsTests extends CoreTestsCase
         ArticlePageObject.closeArticle();
 
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.openNavigation();
         NavigationUI.openMyLists();
 
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);
-
         if (Platform.getInstance().isAndroid()) {
             MyListsPageObject.openFolderByName(name_of_folder);
         }
@@ -120,9 +136,12 @@ public class MyListsTests extends CoreTestsCase
                 amount_of_search_results == 1
         );
 
-        SearchPageObject.clickByArticleWithSubstring(second_article_title);
-
-        ArticlePageObject.assertTitleHasText(second_article_title);
+        if (Platform.getInstance().isAndroid() || Platform.getInstance().isIOS()) {
+            SearchPageObject.clickByArticleWithSubstring(second_article_title);
+            ArticlePageObject.assertTitleHasText(second_article_title);
+        } else {
+            MyListsPageObject.assertArticleInListHasTitle(second_article_title);
+        }
     }
 }
 

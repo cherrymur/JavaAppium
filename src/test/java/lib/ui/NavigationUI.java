@@ -30,12 +30,11 @@ abstract public class NavigationUI extends MainPageObject{
                     "We have a trouble to find the 'My lists' element",
                     5
             );
+        } else {
+            this.waitForElementAndClick(
+                    MY_LIST_LINK,
+                    "We have a trouble to find the 'My lists' element",
+                    10);
         }
-        this.waitForElementAndClick(
-                MY_LIST_LINK,
-                "We have a trouble to find the 'My lists' element",
-                10);
     }
-
-
 }

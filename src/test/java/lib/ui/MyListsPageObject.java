@@ -39,6 +39,14 @@ abstract public class MyListsPageObject extends MainPageObject{
                 10);
     }
 
+    public void assertArticleInListHasTitle(String article_title)
+    {
+        assertElementHasText(
+                ARTICLE_BY_NAME_TPL,
+                article_title,
+                "The article '" + article_title + "' is not opened");
+    }
+
     public void waitForArticleToAppearByTitle(String article_title)
     {
         String article_xpath = getSavedArticleXpathByTitle(article_title);
