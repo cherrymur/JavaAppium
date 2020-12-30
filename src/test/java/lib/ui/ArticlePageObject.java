@@ -1,6 +1,5 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.WebElement;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -11,6 +10,7 @@ public abstract class ArticlePageObject extends MainPageObject {
             TITLE,
             FOOTER_ELEMENT,
             OPTION_ADD_TO_MY_LIST_BUTTON,
+            OPTION_REMOVE_FROM_MY_LIST,
             OPTION_GOTIT_BUTTON,
             OPTION_NAMEtitle_INPUT,
             OPTION_OK_BUTTON,
@@ -41,7 +41,7 @@ public abstract class ArticlePageObject extends MainPageObject {
 
     public void swipeToFooter() {
         if (Platform.getInstance().isIOS()) {
-            this.swipeUPTitleElementAppear(
+            this.swipeUpTitleElementAppear(
                     FOOTER_ELEMENT,
                     "Cannot find the end of article",
                     40);
@@ -91,15 +91,22 @@ public abstract class ArticlePageObject extends MainPageObject {
 
     public void addArticlesToMySaved()
     {
+        if (Platform.getInstance().isMW()) {
+            this.removeArticleFromSavedIfItAdded();
+        }
         this.waitForElementAndClick(OPTION_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article" +
-                " to my list", 5);
+                " to my list", 10);
     }
 
     public void closeArticle() {
-        this.waitForElementAndClick(
-                CLOSE_ARTICLE_BUTTON,
-                "We have a trouble to find the 'X' element",
-                5);
+        if ((Platform.getInstance().isIOS()) || (Platform.getInstance().isAndroid())){
+            this.waitForElementAndClick(
+                    CLOSE_ARTICLE_BUTTON,
+                    "We have a trouble to find the 'X' element",
+                    5);
+        } else {
+            System.out.println("closeArticle() method is not available on : " + Platform.getInstance().getPlatformVar());
+        }
     }
 
     public void assertTitleHasText(String article_title)
@@ -108,6 +115,22 @@ public abstract class ArticlePageObject extends MainPageObject {
                 TITLE,
                 article_title,
                 "The article '" + article_title + "' is not opened");
+    }
+
+    public void removeArticleFromSavedIfItAdded()
+    {
+        if (this.isElementPresent(OPTION_REMOVE_FROM_MY_LIST)) {
+            this.waitForElementAndClick(
+                    OPTION_REMOVE_FROM_MY_LIST,
+                    "Cannot click button to remove article",
+                    5
+            );
+            this.waitForElementPresent(
+                    OPTION_ADD_TO_MY_LIST_BUTTON,
+                    "Cannot find button to add an article to saved list after removing it from this list before",
+                    5
+            );
+        }
     }
 
     public void assertArticleTitlePresent()

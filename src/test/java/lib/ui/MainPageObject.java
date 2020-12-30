@@ -143,7 +143,7 @@ public class MainPageObject {
         }
     }
 
-    public void swipeUPTitleElementAppear(String locator, String error_message, int max_swipes){
+    public void swipeUpTitleElementAppear(String locator, String error_message, int max_swipes){
         int already_swiped = 0;
 
         while (!this.isElementLocatedOnTheScreen(locator))
@@ -220,6 +220,30 @@ public class MainPageObject {
         List elements = driver.findElements(by);
         return elements.size();
     }
+
+    public boolean isElementPresent(String locator)
+    {
+        return getAmountOfElements(locator) > 0;
+    }
+
+    public void tryClickElementWithFewAttempts(String locator, String error_message, int amount_of_attempts)
+    {
+        int current_attempts = 0;
+        boolean need_more_attempts = true;
+
+        while (need_more_attempts) {
+            try {
+                this.waitForElementAndClick(locator,error_message,1);
+                need_more_attempts = false;
+            } catch (Exception e) {
+                if (current_attempts > amount_of_attempts) {
+                    this.waitForElementAndClick(locator, error_message, 1);
+                }
+            }
+            ++ current_attempts;
+        }
+    }
+
 
     public void assertElementNotPresent(String locator, String error_message) {
 

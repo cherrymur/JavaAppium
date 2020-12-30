@@ -2,10 +2,7 @@ package tests;
 
 import lib.CoreTestsCase;
 import lib.Platform;
-import lib.ui.ArticlePageObject;
-import lib.ui.MyListsPageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
+import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListsPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
@@ -15,6 +12,9 @@ import org.junit.Test;
 public class MyListsTests extends CoreTestsCase
 {
     private static String name_of_folder = "My list";
+    private static String
+            login = "Olga avramenko",
+            password = "159lolo32;";
 
     @Test
     public void testSaveFirstArticleToMyList() {
@@ -22,7 +22,7 @@ public class MyListsTests extends CoreTestsCase
 
         SearchPageObject.initSearchInput();
         SearchPageObject.typeSearchLine("Java");
-        SearchPageObject.clickByArticleWithSubstring("Object-oriented programming language");
+        SearchPageObject.clickByArticleWithSubstring("bject-oriented programming language");
 
         ArticlePageObject ArticlePageObject = ArticlePageObjectFactory.get(driver);
         ArticlePageObject.waitForTitleElement();
@@ -34,9 +34,28 @@ public class MyListsTests extends CoreTestsCase
         } else {
             ArticlePageObject.addArticlesToMySaved();
         }
+
+        if (Platform.getInstance().isMW()) {
+
+            AutorizationPageObject Auth = new AutorizationPageObject(driver);
+//            ArticlePageObject.scrollWebPageTillElementNotVisible(LOGIN_BUTTON);
+            Auth.clickAuthButton();
+            Auth.enterLoginData(login, password);
+            Auth.submitForm();
+
+            ArticlePageObject.waitForTitleElement();
+
+            assertEquals(
+                    "we are not redirected after login",
+                    article_title,
+                    ArticlePageObject.getArticleTitle()
+            );
+            ArticlePageObject.addArticlesToMySaved();
+        }
         ArticlePageObject.closeArticle();
 
         NavigationUI NavigationUI = NavigationUIFactory.get(driver);
+        NavigationUI.openNavigation();
         NavigationUI.openMyLists();
 
         MyListsPageObject MyListsPageObject = MyListsPageObjectFactory.get(driver);

@@ -57,7 +57,7 @@ public class CoreTestsCase extends TestCase {
         if(Platform.getInstance().isMW()) {
             driver.get("https://en.m.wikipedia.org");
         } else {
-            System.out.println("Method openWikiWebPageForMobileWeb does nothing for platform " + Platform.getInstance().getPlatformVar());
+            System.out.println("Method openWikiWebPageForMobileWeb() does nothing for platform " + Platform.getInstance().getPlatformVar());
         }
     }
     private void skipWelcomePageForIOSApp() {

@@ -92,7 +92,7 @@ public class Platform {
         deviceMetrics.put("pixelRatio", 3.0);
 
         Map<String, Object> mobileEmulation = new HashMap<String, Object>();
-        deviceMetrics.put("deviceMetrics", deviceMetrics);
+        deviceMetrics.put("deviceMetrics", mobileEmulation);
         deviceMetrics.put("userAgent", "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) \n" +
                 "\n" +
                 "AppleWebKit/535.19 (KHTML, like Gecko) \n" +
